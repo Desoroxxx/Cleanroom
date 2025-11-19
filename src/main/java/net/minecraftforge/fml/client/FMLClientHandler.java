@@ -285,6 +285,8 @@ public class FMLClientHandler implements IFMLSidedHandler
                 sharedModList.put(sharedModId, sharedModDescriptor);
             }
         }
+
+        com.cleanroommc.kirino.KirinoCore.init();
     }
 
     private void detectOptifine()
@@ -392,6 +394,8 @@ public class FMLClientHandler implements IFMLSidedHandler
         if (!hasError())
             Loader.instance().loadingComplete();
         SplashProgress.finish();
+
+        com.cleanroommc.kirino.KirinoCore.postInit();
     }
 
     public void extendModList()

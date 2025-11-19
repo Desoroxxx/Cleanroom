@@ -351,6 +351,9 @@ dependencies {
     installer 'org.openjdk.nashorn:nashorn-core:15.7'
     // installer 'ca.weblite:java-objc-bridge:1.2'
 
+    // Kirino Engine
+    installer 'org.joml:joml:1.10.8'
+    installer 'io.github.classgraph:classgraph:4.8.181'
 
     // Mixin
     installer 'com.cleanroommc:sponge-mixin:0.20.12+mixin.0.8.7'

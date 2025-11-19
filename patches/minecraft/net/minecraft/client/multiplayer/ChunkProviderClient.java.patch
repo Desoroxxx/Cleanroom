@@ -8,15 +8,49 @@
  import javax.annotation.Nullable;
  import net.minecraft.util.math.ChunkPos;
  import net.minecraft.world.World;
-@@ -61,6 +62,7 @@
+@@ -32,6 +33,14 @@
+     };
+     private final World world;
+ 
++    public Long2ObjectMap<Chunk> getLoadedChunks()
++    {
++        return loadedChunks;
++    }
++
++    public java.util.function.BiConsumer<Integer, Integer> loadChunkCallback = null;
++    public java.util.function.BiConsumer<Integer, Integer> unloadChunkCallback = null;
++
+     public ChunkProviderClient(World worldIn)
+     {
+         this.blankChunk = new EmptyChunk(worldIn, 0, 0);
+@@ -48,6 +57,11 @@
+         }
+ 
+         this.loadedChunks.remove(ChunkPos.asLong(x, z));
++
++        if (unloadChunkCallback != null)
++        {
++            unloadChunkCallback.accept(x, z);
++        }
+     }
+ 
+     @Nullable
+@@ -61,7 +75,14 @@
      {
          Chunk chunk = new Chunk(this.world, chunkX, chunkZ);
          this.loadedChunks.put(ChunkPos.asLong(chunkX, chunkZ), chunk);
 +        net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.event.world.ChunkEvent.Load(chunk));
          chunk.markLoaded(true);
++
++        if (loadChunkCallback != null)
++        {
++            loadChunkCallback.accept(chunkX, chunkZ);
++        }
++
          return chunk;
      }
-@@ -75,9 +77,11 @@
+ 
+@@ -75,9 +96,11 @@
      public boolean tick()
      {
          long i = System.currentTimeMillis();
