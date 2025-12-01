@@ -63,6 +63,15 @@
          }
  
          GlStateManager.translate(0.0F, -f, 0.0F);
+@@ -707,7 +703,7 @@
+ 
+     private void setupCameraTransform(float partialTicks, int pass)
+     {
+-        this.farPlaneDistance = (float)(this.mc.gameSettings.renderDistanceChunks * 16);
++        this.farPlaneDistance = Math.max(16f, (float)((this.mc.gameSettings.renderDistanceChunks - 1) * 16));
+         GlStateManager.matrixMode(5889);
+         GlStateManager.loadIdentity();
+         float f = 0.07F;
 @@ -825,6 +821,7 @@
              boolean flag = this.mc.getRenderViewEntity() instanceof EntityLivingBase
                             && ((EntityLivingBase)this.mc.getRenderViewEntity()).isPlayerSleeping();
